@@ -24,7 +24,6 @@ namespace Muhametshin_Autoservice4
 
             return _context;
         }
-
         public MuhametshinAvtoservisEntities()
             : base("name=MuhametshinAvtoservisEntities")
         {
