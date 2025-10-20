@@ -178,10 +178,10 @@ namespace Muhametshin_Autoservice4
             ChangePage(0, 0);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+       /*private void Button_Click(object sender, RoutedEventArgs e)
         {
             Manager.MainFrame.Navigate(new AddEditPage());
-        }
+        }*/
 
         private void TBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -247,6 +247,25 @@ namespace Muhametshin_Autoservice4
         private void PageListBox_MouseUp(object sender, MouseButtonEventArgs e)
         {
             ChangePage(0, Convert.ToInt32(PageListBox.SelectedItem.ToString()) - 1);
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AddEditPage(null));
+        }
+
+        private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (Visibility == Visibility.Visible)
+            {
+                MuhametshinAvtoservisEntities.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
+                ServiceListView.ItemsSource = MuhametshinAvtoservisEntities.GetContext().Service.ToList();
+            }
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AddEditPage((sender as Button).DataContext as Service));
         }
     }
 }
