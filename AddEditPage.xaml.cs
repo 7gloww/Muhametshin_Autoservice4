@@ -42,11 +42,17 @@ namespace Muhametshin_Autoservice4
             if (_currentServise.Cost == 0)
                 errors.AppendLine("Укажите стоимость услуги");
 
-            if (_currentServise.Discount == 0)
-                errors.AppendLine("Укажите скидку");
-
-            if (string.IsNullOrWhiteSpace(_currentServise.DurationInSeconds))
+            if (_currentServise.DurationInSeconds == 0)
                 errors.AppendLine("Укажите длительность услуги");
+
+            if (_currentServise.DurationInSeconds > 240)
+                errors.AppendLine("Длительность не может быть больше 240 минут");
+
+            if (_currentServise.DurationInSeconds < 0)
+                errors.AppendLine("Длительность не может быть менее 0 минут");
+
+            if (_currentServise.Discount < 0 || _currentServise.Discount > 100)
+                errors.AppendLine("Укажите скидку от 0 до 100");
 
             if (errors.Length > 0)
             {
@@ -54,18 +60,29 @@ namespace Muhametshin_Autoservice4
                 return;
             }
 
-            if (_currentServise.ID == 0)
-                MuhametshinAvtoservisEntities.GetContext().Service.Add(_currentServise);
+            var allServices = MuhametshinAvtoservisEntities.GetContext().Service.ToList();
+            allServices = allServices.Where(p => p.Title == _currentServise.Title && p.ID != _currentServise.ID).ToList();
 
-            try
+            if (allServices.Count == 0)
             {
-                MuhametshinAvtoservisEntities.GetContext().SaveChanges();
-                MessageBox.Show("Информация сохранена");
-                Manager.MainFrame.GoBack();
+                if (_currentServise.ID == 0)
+                {
+                    MuhametshinAvtoservisEntities.GetContext().Service.Add(_currentServise);
+                }
+                try
+                {
+                    MuhametshinAvtoservisEntities.GetContext().SaveChanges();
+                    MessageBox.Show("Информация сохранена");
+                    Manager.MainFrame.GoBack();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message.ToString());
+                }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show(ex.Message.ToString());
+                MessageBox.Show("Уже существует такая услуга");
             }
         }
     }

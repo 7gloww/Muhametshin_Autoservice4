@@ -188,16 +188,6 @@
     <Resource Include="RES\service_logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MuhametshinModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MuhametshinModel.Context.cs</LastGenOutput>
-      <DependentUpon>MuhametshinModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="MuhametshinModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MuhametshinModel.edmx</DependentUpon>
-      <LastGenOutput>MuhametshinModel.cs</LastGenOutput>
-    </Content>
     <Resource Include="RES\picture.png" />
     <Resource Include="Услуги автосервиса\diz.jpg" />
     <Resource Include="Услуги автосервиса\rulevoe-upravlenie-avtomobilya.jpg" />
@@ -219,6 +209,18 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MuhametshinModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MuhametshinModel.edmx</DependentUpon>
+      <LastGenOutput>MuhametshinModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="MuhametshinModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MuhametshinModel.edmx</DependentUpon>
+      <LastGenOutput>MuhametshinModel.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

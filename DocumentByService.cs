@@ -17,7 +17,5 @@ namespace Muhametshin_Autoservice4
         public int ID { get; set; }
         public int ClientServiceID { get; set; }
         public string DocumentPath { get; set; }
-    
-        public virtual ClientService ClientService { get; set; }
     }
 }

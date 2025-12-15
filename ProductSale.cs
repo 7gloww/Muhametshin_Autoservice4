@@ -20,7 +20,6 @@ namespace Muhametshin_Autoservice4
         public int Quantity { get; set; }
         public Nullable<int> ClientServiceID { get; set; }
     
-        public virtual ClientService ClientService { get; set; }
         public virtual Product Product { get; set; }
     }
 }

@@ -20,7 +20,9 @@ namespace Muhametshin_Autoservice4
         public static MuhametshinAvtoservisEntities GetContext()
         {
             if (_context == null)
+            {
                 _context = new MuhametshinAvtoservisEntities();
+            }
 
             return _context;
         }

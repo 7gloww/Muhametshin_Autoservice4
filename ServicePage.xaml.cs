@@ -134,27 +134,27 @@ namespace Muhametshin_Autoservice4
 
             if (ComboType.SelectedIndex == 0)
             {
-                currentServices = currentServices.Where(p => ((p.Discount) * 100 >= 0 && (p.Discount) * 100 <= 100)).ToList();
+                currentServices = currentServices.Where(p => (p.DiscountInt) >= 0 && (p.DiscountInt) <= 100).ToList();
             }
             if (ComboType.SelectedIndex == 1)
             {
-                currentServices = currentServices.Where(p => ((p.Discount) * 100 >= 0 && (p.Discount) * 100 < 5)).ToList();
+                currentServices = currentServices.Where(p => (p.DiscountInt) >= 0 && (p.DiscountInt) < 5).ToList();
             }
             if (ComboType.SelectedIndex == 2)
             {
-                currentServices = currentServices.Where(p => ((p.Discount) * 100 >= 5 && (p.Discount) * 100 < 15)).ToList();
+                currentServices = currentServices.Where(p => (p.DiscountInt) >= 5 && (p.DiscountInt) < 15).ToList();
             }
             if (ComboType.SelectedIndex == 3)
             {
-                currentServices = currentServices.Where(p => ((p.Discount) * 100 >= 15 && (p.Discount) * 100 < 30)).ToList();
+                currentServices = currentServices.Where(p => (p.DiscountInt) >= 15 && (p.DiscountInt) < 30).ToList();
             }
             if (ComboType.SelectedIndex == 4)
             {
-                currentServices = currentServices.Where(p => ((p.Discount) * 100 >= 30 && (p.Discount) * 100 < 70)).ToList();
+                currentServices = currentServices.Where(p => (p.DiscountInt) >= 30 && (p.DiscountInt) < 70).ToList();
             }
             if (ComboType.SelectedIndex == 5)
             {
-                currentServices = currentServices.Where(p => ((p.Discount) * 100 >= 70 && (p.Discount) * 100 <= 100)).ToList();
+                currentServices = currentServices.Where(p => (p.DiscountInt) >= 70 && (p.DiscountInt) <= 100).ToList();
             }
 
             currentServices = currentServices.Where(p => p.Title.ToLower().Contains(TBoxSearch.Text.ToLower())).ToList();
@@ -166,7 +166,7 @@ namespace Muhametshin_Autoservice4
                 currentServices = currentServices.OrderByDescending(p => p.Cost).ToList();
             }
 
-            if(RButtonUp.IsChecked.Value)
+            if (RButtonUp.IsChecked.Value)
             {
                 currentServices = currentServices.OrderBy(p => p.Cost).ToList();
             }
