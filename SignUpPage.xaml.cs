@@ -33,6 +33,8 @@ namespace Muhametshin_Autoservice4
             var _currentClient = MuhametshinAvtoservisEntities.GetContext().Client.ToList();
 
             ComboClient.ItemsSource = _currentClient;
+
+            StartDate.DisplayDateStart = DateTime.Today;
         }
 
         private ClientService _currentClientService = new ClientService();
@@ -59,11 +61,38 @@ namespace Muhametshin_Autoservice4
                 return;
             }
 
+            DateTime startTime;
+            try
+            {
+                startTime = Convert.ToDateTime(StartDate.Text + " " + TBStart.Text);
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Неверный формат времени");
+                return;
+            }
+
+            if (startTime < DateTime.Now)
+            {
+                MessageBox.Show("Нельзя записать на прошедшую дату или время");
+                return;
+            }
+
             Client selectedClient = ComboClient.SelectedItem as Client;
             _currentClientService.ClientID = selectedClient.ID;
 
             _currentClientService.ServiceID = _currentService.ID;
-            _currentClientService.StartTime = Convert.ToDateTime(StartDate.Text + " " + TBStart.Text);
+            _currentClientService.StartTime = startTime;
+
+            try
+            {
+                _currentClientService.StartTime = Convert.ToDateTime(StartDate.Text + " " + TBStart.Text);
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show(errors.AppendLine("Неверный ввод").ToString());
+                return;
+            }
 
             if (_currentClientService.ID == 0)
             {
@@ -72,7 +101,7 @@ namespace Muhametshin_Autoservice4
             try
             {
                 MuhametshinAvtoservisEntities.GetContext().SaveChanges();
-                MessageBox.Show("информация сохранена");
+                MessageBox.Show("Информация сохранена");
                 Manager.MainFrame.GoBack();
             }
             catch (Exception ex)
@@ -94,12 +123,30 @@ namespace Muhametshin_Autoservice4
                 string[] start = s.Split(new char[] { ':' });
                 int startHour = Convert.ToInt32(start[0]) * 60;
                 int startMin = Convert.ToInt32(start[1]);
+                int startTotalMinutes = startHour + startMin;
 
-                int sum = startHour + startMin + _currentService.DurationInSeconds;
 
-                int EndHour = sum / 60;
-                int EndMin = sum % 60;
-                TBEnd.Text = $"{EndHour}:{EndMin:D2}";
+                int endTotalMinutes = startTotalMinutes + _currentService.DurationInSeconds;
+
+                int EndHour = (endTotalMinutes / 60) % 24;
+                int EndMin = endTotalMinutes % 60;
+
+                string nextDayIndicator = "";
+
+                if (endTotalMinutes >= 1440)
+                {
+                    nextDayIndicator = " (след. день)";
+                }
+
+                if (startHour < 1440)
+                {
+                    TBEnd.Text = $"{EndHour}:{EndMin:D2}{nextDayIndicator}";
+                }
+                else
+                {
+                    TBEnd.Text = $"*";
+                }
+
             }
         }
     }
